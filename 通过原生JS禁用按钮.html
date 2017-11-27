@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+<button id="bt" onclick="show()">点我</button>
+<input type="text" id="text">
+<script>
+    function show() {
+        console.log(123)
+    }
+    let btn = document.getElementById("bt");
+    let text = document.getElementById("text");
+    btn.setAttribute("disabled","false");   //这种情况下按钮依然会被禁用
+    text.readOnly=true;
+//    btn.readOnly=true;          //readOnly对按钮好像并没有效果
+//    btn.disabled='false';       //disabled=false按钮依然会被启用
+</script>
+</body>
+</html>

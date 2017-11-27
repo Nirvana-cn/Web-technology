@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+<input type="text" id="text"><button id="btn">测试</button>
+</body>
+<script>
+    var array = [{
+        upDate: '2017-10-16 16:50:30.0',
+        uploader: 'ZXM',
+        addDate: '2017-10-16 16:50:27.0',
+        explain: '9层32寸电子画框展示用灯5',
+        name:"激活",
+        id:"5",
+        num:"9B4"
+    },
+        {
+            upDate: '2017-10-13 16:50:30.0',
+            uploader: 'SDAF',
+            addDate: '2017-10-16 16:50:27.0',
+            explain: '测试使用',
+            name:"未激活",
+            id:"5",
+            num:"345"
+        }];
+    document.getElementById("btn").onclick = function(){
+        var msg = document.getElementById("text").value.toString();
+        console.log(msg);
+        array.some(function(item,index) {
+            for(var value in item){
+                console.log(item[value].lastIndexOf(msg))
+            }
+        }, this);
+    }
+
+</script>
+</html>

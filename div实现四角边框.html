@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <style>
+        .rect {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(to left, #f00, #f00) left top no-repeat,
+            linear-gradient(to bottom, #f00, #f00) left top no-repeat,
+            linear-gradient(to left, #f00, #f00) right top no-repeat,
+            linear-gradient(to bottom, #f00, #f00) right top no-repeat,
+            linear-gradient(to left, #f00, #f00) left bottom no-repeat,
+            linear-gradient(to bottom, #f00, #f00) left bottom no-repeat,
+            linear-gradient(to left, #f00, #f00) right bottom no-repeat,
+            linear-gradient(to left, #f00, #f00) right bottom no-repeat;
+            background-size: 1px 20px, 20px 1px, 1px 20px, 20px 1px;
+        }
+    </style>
+</head>
+<body>
+<div class="rect"></div>
+<!--三种方法-->
+<!--1.css变换-->
+<!--2.两个相同的div，相互重叠，一个在中心的旋转45度-->
+<!--3.分别在外层div的四个角处放置四个小div-->
+</body>
+</html>
