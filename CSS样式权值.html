@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>css</title>
+    <style>
+        ul#related span{color:red;}
+        #favorite .highlight{color:orange;}
+        .highlight{color:black;}
+    </style>
+</head>
+<body>
+<ul class="authors" id="favorite">
+    <li><span>Martin Fowler</span></li>
+    <li id="related"><span class="highlight">Dijkstra</span></li>
+</ul>
+<!--4个等级的定义如下： 第一等：代表内联样式，如: style=””，权值为1000。 第二等：代表ID选择器，如：#content，权值为100。
+第三等：代表类，伪类和属性选择器，如.content，权值为10。 第四等：代表类型选择器和伪元素选择器，如div p，权值为1。
+ul#related span 的权重为 1+100+1=102
+#favorite .highlight 的权重为 100+10=110
+highlight 的权重为 10
+所以Dijkstra颜色为orange-->
+</body>
+</html>
