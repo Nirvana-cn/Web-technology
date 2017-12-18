@@ -11,18 +11,21 @@ function changeStr(str) {
 }
 changeStr('AfderFVfdEOG');
 
+// 使用正则表达式
+var str="ASDasdhajsdhAsadw";
+var temp=[];
+str=str.replace(/[A-Z]/g,function(res){
+    temp.push(res);
+    return "";
+});
+str=str+temp.join("");
+
+
 // var readline = require('readline');
 // const rl = readline.createInterface({
 //     input: process.stdin,
 //     output: process.stdout
 // });
 // rl.on('line', function(line){
-//     let arr=Array.from(line);
-//     let temp=[];
-//     for(let i=arr.length-1;i>=0;i--){
-//         if(arr[i].charCodeAt(0)<=90){
-//             temp.unshift(arr.splice(i,1)[0])
-//         }
-//     }
-//     console.log(arr.concat(temp).join(''));
+//
 // });
