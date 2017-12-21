@@ -4,7 +4,7 @@
 // dp[j]代表以arr[j]结尾的最长递增序列，而dp[j]又是之前计算过的最大的那个值，
 // 则dp[i]=dp[j]+1.计算完dp之后，我们找出dp中的最大值，即为这个串的最长递增序列
 let arr=[2,1,5,3,6,4,8,9,7];
-function search(arr) {
+function maxStr(arr) {
     let temp=[1];
     for(let i=1;i<arr.length;i++){
         let temp_arr=arr.slice(0,i);
