@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+    <script src="mvvm.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1>{{a}}</h1>
+    <p><span>主打歌为{{b.b1}}</span><span>qqq</span><span>ccc</span></p>
+    <p>作词人为{{b.b2}}等人。</p>
+</div>
+</body>
+<script>
+    var app=new Mvvm({
+        el:'#app',
+        data:{
+            a:1,
+            b:{
+                b1:2,
+                b2:3
+            }
+        }
+    })
+</script>
+</html>
