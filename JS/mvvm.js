@@ -66,10 +66,22 @@ function Compile(el, vm) {
     // 在el范围里将内容都拿到，当然不能一个一个的拿
     // 可以选择移到内存中去然后放入文档碎片中，节省开销
     let fragment = document.createDocumentFragment();
-
-    while (child = vm.$el.firstChild) {
+    let child = vm.$el.firstChild;
+    while (child) {
         fragment.appendChild(child);    // 因为第一个子元素可能为换行，所以要进行判断，当为真时，将el中的内容放入内存中
+        child = vm.$el.firstChild;
     }
+    // let child = vm.$el.firstChild;
+    // while (child) {
+    //     fragment.appendChild(child);
+    //     child = vm.$el.firstChild;
+    // }
+    // 可以简写为如下：
+    // while (child = vm.$el.firstChild;) {
+    //     fragment.appendChild(child);
+    // }
+
+
     // 对el里面的内容进行替换
     function replace(frag) {
         Array.from(frag.childNodes).forEach(node => {
