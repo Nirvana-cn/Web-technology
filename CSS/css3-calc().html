@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>calc()</title>
+    <style>
+        .wrapper{
+            width: 100px;
+            height: 400px;
+        }
+        .left{
+            width:100%;
+            height:100px;
+            background-color:#afa;
+        }
+        .right{
+            width:100%;
+            height: calc(100% - 100px);
+            background-color:#ccc;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="left"></div>
+    <div class="right"></div>
+</div>
+</body>
+</html>
