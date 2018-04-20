@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>清除浮动</title>
+    <style>
+        .wrapper {
+            width: 500px;
+            /*height:110px;*/
+            /*父级div定义height，将父元素高度撑起来，避免浮动元素影响父元素的兄弟元素位置*/
+            border: 2px solid black;
+            overflow: auto;
+            /*这里的overflow值，还可以是除了"visible"之外的任何有效值，它们都能达到撑起父元素高度，清除浮动的目的*/
+            /*原理就是构建一个BFC区域，其它构建BFC的方法均可，例如display:inline-block*/
+            /*display: inline-block;*/
+        }
+        .clearfix:after {
+            content: '.';
+            height: 0;
+            display: block;
+            clear: both;
+            /*在父级元素的最后，添加了一个:after伪元素，通过清除伪元素的浮动，达到撑起父元素高度的目的。
+            注意到该伪元素的display值为block，即，它是一个不可见的块级元素（有的地方使用table，因为table也是一个块级元素）
+            此方法是添加空白div的另一种变形，其底层逻辑也是完全一样的*/
+        }
+        .floatDiv {
+            width: 100px;
+            height: 100px;
+            border: 2px dotted red;
+            color: red;
+            margin: 4px;
+            float: left;
+        }
+        .footer {
+            width: 500px;
+            height: 100px;
+            margin: 5px 0;
+            border: 2px dotted black;
+        }
+        .text {
+            color: blue;
+            border: 2px solid blue;
+            /*clear: both;*/
+            /*使用clear清除浮动的方法还是有适用范围的*/
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <!--<div class="text">单从元素清除浮动的角度，clear完全已经达到了目的，它已经使得.textDiv特定的方向上不再有浮动元素</div>-->
+    <!--<div class="floatDiv"></div>-->
+    <!--此时无法对.text应用clear来清除浮动-->
+    <div class="floatDiv"></div>
+    <div class="text">单从元素清除浮动的角度，clear完全已经达到了目的，它已经使得.textDiv特定的方向上不再有浮动元素</div>
+
+</div>
+<div class="footer">单从元素清除浮动的角度，clear完全已经达到了目的，它已经使得.textDiv特定的方向上不再有浮动元素单从元素清除浮动的角度，clear完全已经达到了目的，它已经使得.textDiv特定的方向上不再有浮动元素</div>
+</body>
+</html>
