@@ -35,7 +35,8 @@ function Observe(data) {
         Object.defineProperty(data, key, {
             configurable: true,
             get() {
-                Dep.target && dep.addSub(Dep.target);
+                Dep.target && dep.addSub(Dep.target);   // 将watcher添加到订阅事件中 [watcher]
+                console.log(dep);
                 return val;
             },
             set(newVal) {   // 更改值的时候
@@ -97,10 +98,33 @@ function Compile(el, vm) {
                 });
                 // 用trim方法去除一下首尾空格
                 node.textContent = txt.replace(reg, val).trim();
-                new Watcher(vm, RegExp.$1, newVal => {
+                new Watcher(vm, RegExp.$1, function (newVal) {
                     node.textContent = txt.replace(reg, newVal).trim();
                 });
             }
+
+            if (node.nodeType === 1) {  // 元素节点
+                let nodeAttr = node.attributes; // 获取dom上的所有属性,是个类数组
+                Array.from(nodeAttr).forEach(attr => {
+                    let name = attr.name;   // v-model  type
+                    let exp = attr.value;   // c        text
+                    if (name.includes('v-')){
+                        node.value = vm[exp];   // this.c 为 2
+                    }
+                    // 监听变化
+                    new Watcher(vm, exp, function(newVal) {
+                        node.value = newVal;   // 当watcher触发时会自动将内容放进输入框中
+                    });
+
+                    node.addEventListener('input', e => {
+                        let newVal = e.target.value;
+                        // 相当于给this.c赋了一个新值
+                        // 而值的改变会调用set，set中又会调用notify，notify中调用watcher的update方法实现了更新
+                        vm[exp] = newVal;
+                    });
+                });
+            }
+
             // 如果还有子节点，继续递归replace
             if (node.childNodes && node.childNodes.length) {
                 replace(node);
@@ -135,7 +159,7 @@ function Watcher(vm, exp, fn) {
     this.exp = exp;
     // 添加一个事件
     // 这里我们先定义一个属性
-    Dep.target = this;
+    Dep.target = this;  //this很关键，指向new出来的Watcher对象，然后在get中使用addSub进行监听
     let arr = exp.split('.');
     let val = vm;
     arr.forEach(key => {    // 取值
