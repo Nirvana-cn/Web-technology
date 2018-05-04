@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>隐藏滚动条</title>
+    <style>
+        .content, .outer-container {
+            width: 200px;
+            height: 200px;
+        }
+
+        .outer-container {
+            border: 1px solid purple;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .inner-container {
+            position: absolute;
+            left: 0;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        .wrapper{
+            overflow: scroll;
+            width:200px;
+            height:200px;
+            margin-top:100px;
+            border:1px solid #000
+        }
+        .wrapper::-webkit-scrollbar{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="outer-container">
+    <div class="inner-container">
+        <div class="content">
+            ​ 在大部分的代码执行过程中，都是出现错误的时候，由浏览器(javascript引擎)抛出异常，然后程序或者停止执行，或被try…catch 捕获。然而有时候我们在检测到一些不合理的情况发生的时候也可以主动抛出错误。
+            ​ 使用 throw 关键字抛出来主动抛出异常。​ 在大部分的代码执行过程中，都是出现错误的时候，由浏览器(javascript引擎)抛出异常，然后程序或者停止执行，或被try…catch 捕获。
+            ​ 然而有时候我们在检测到一些不合理的情况发生的时候也可以主动抛出错误。
+            ​ 使用 throw 关键字抛出来主动抛出异常。​ 在大部分的代码执行过程中，都是出现错误的时候，由浏览器(javascript引擎)抛出异常，然后程序或者停止执行，或被try…catch 捕获。
+            ​ 然而有时候我们在检测到一些不合理的情况发生的时候也可以主动抛出错误。
+            ​ 使用 throw 关键字抛出来主动抛出异常。
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+    在大部分的代码执行过程中，都是出现错误的时候，由浏览器(javascript引擎)抛出异常，然后程序或者停止执行，或被try…catch 捕获。然而有时候我们在检测到一些不合理的情况发生的时候也可以主动抛出错误。
+    ​ 使用 throw 关键字抛出来主动抛出异常。​ 在大部分的代码执行过程中，都是出现错误的时候，由浏览器(javascript引擎)抛出异常，然后程序或者停止执行，或被try…catch 捕获。
+    ​ 然而有时候我们在检测到一些不合理的情况发生的时候也可以主动抛出错误。
+    ​ 使用 throw 关键字抛出来主动抛出异常。​ 在大部分的代码执行过程中，都是出现错误的时候，由浏览器(javascript引擎)抛出异常，然后程序或者停止执行，或被try…catch 捕获。
+    ​ 然而有时候我们在检测到一些不合理的情况发生的时候也可以主动抛出错误。
+    ​ 使用 throw 关键字抛出来主动抛出异常。
+</div>
+</body>
+</html>
