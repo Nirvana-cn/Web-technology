@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul, ol {
+            list-style: none;
+        }
+
+        /*消除图片底部3像素距离*/
+        img {
+            vertical-align: top;
+            width: 200px;
+            height: 200px;
+        }
+
+        .scroll {
+            width: 200px;
+            height: 200px;
+            margin: 100px auto;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .box {
+            width: 500px;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .box ul {
+            width: 600%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: all 1s linear;
+        }
+
+        .box ul li {
+            float: left;
+        }
+
+        .scroll ol {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+        }
+
+        .scroll ol li {
+            float: left;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .scroll ol li.current {
+            background-color: #afa;
+        }
+    </style>
+</head>
+<body>
+<div id="scroll" class="scroll">
+    <div id="box" class="box">
+        <ul id="ul">
+            <li><img src="../Static/6.png"></li>
+            <li><img src="../Static/7.png"></li>
+            <li><img src="../Static/14.png"></li>
+            <li><img src="../Static/15.png"></li>
+            <li><img src="../Static/16.png"></li>
+        </ul>
+    </div>
+</div>
+</body>
+<script>
+    var scroll = document.getElementById("scroll")
+    var ul = document.getElementById("ul")
+    var ulList = ul.children
+    ul.appendChild(ul.children[0].cloneNode(true))
+    var ol = document.createElement("ol")
+    scroll.appendChild(ol)
+    for (var i = 0; i < ulList.length-1; i++) {
+        var li = document.createElement("li")
+        li.innerHTML = i + 1
+        ol.appendChild(li)
+    }
+    ol.children[0].className = "current"
+    var olList = ol.children
+    var timer = null
+    var count = 1
+    timer = setInterval(loop, 3000)
+    function loop() {
+        let distance = 200 * count
+        if (count < ulList.length-1) {
+            ul.style.transition="all 1s linear"
+            ul.style.transform = "translateX(-" + distance + "px)"
+            for (let i = 0; i < olList.length; i++) {
+                olList[i].className = ""
+            }
+            olList[count].className = "current"
+            count++
+        } else {
+            ul.style.transition="all 1s linear"
+            ul.style.transform = "translateX(-1000px)"
+            for (let i = 0; i < olList.length; i++) {
+                olList[i].className = ""
+            }
+            olList[0].className = "current"
+            count=1;
+            setTimeout(function () {
+                ul.style.transition="all 0s linear"
+                ul.style.transform = "translateX(0px)"
+            },1000)
+        }
+    }
+</script>
+</html>
