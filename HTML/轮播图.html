@@ -91,20 +91,41 @@
     ul.appendChild(ul.children[0].cloneNode(true))
     var ol = document.createElement("ol")
     scroll.appendChild(ol)
-    for (var i = 0; i < ulList.length-1; i++) {
+    for (var i = 0; i < ulList.length - 1; i++) {
         var li = document.createElement("li")
         li.innerHTML = i + 1
         ol.appendChild(li)
     }
     ol.children[0].className = "current"
     var olList = ol.children
+    for (let i = 0; i < olList.length; i++) {
+        olList[i].onclick=function () {
+            console.log(olList[i].innerHTML)
+            count = Number(olList[i].innerHTML)-1
+            let distance = 200 * count
+            ul.style.transition = "all 1s linear"
+            ul.style.transform = "translateX(-" + distance + "px)"
+            for (let i = 0; i < olList.length; i++) {
+                olList[i].className = ""
+            }
+            olList[count].className = "current"
+            count++
+        }
+    }
     var timer = null
     var count = 1
     timer = setInterval(loop, 3000)
+    scroll.onmouseover = function () {
+        clearInterval(timer)
+    }
+    scroll.onmouseout = function () {
+        timer = setInterval(loop, 3000)
+    }
+
     function loop() {
         let distance = 200 * count
-        if (count < ulList.length-1) {
-            ul.style.transition="all 1s linear"
+        if (count < ulList.length - 1) {
+            ul.style.transition = "all 1s linear"
             ul.style.transform = "translateX(-" + distance + "px)"
             for (let i = 0; i < olList.length; i++) {
                 olList[i].className = ""
@@ -112,17 +133,17 @@
             olList[count].className = "current"
             count++
         } else {
-            ul.style.transition="all 1s linear"
+            ul.style.transition = "all 1s linear"
             ul.style.transform = "translateX(-1000px)"
             for (let i = 0; i < olList.length; i++) {
                 olList[i].className = ""
             }
             olList[0].className = "current"
-            count=1;
+            count = 1;
             setTimeout(function () {
-                ul.style.transition="all 0s linear"
+                ul.style.transition = "all 0s linear"
                 ul.style.transform = "translateX(0px)"
-            },1000)
+            }, 1000)
         }
     }
 </script>
