@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>移动端触屏事件</title>
+    <style>
+        div{
+            width:200px;
+            height:200px;
+            border:1px solid #000;
+            margin:20px;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+<div></div>
+<div></div>
+</body>
+<script>
+    let div=document.getElementsByTagName("div");
+    for(let i=0;i<div.length;i++){
+        div[i].ontouchstart=function () {
+            console.log(event)
+            console.log(event.touches)
+            console.log(event.targetTouches)
+            console.log(event.changedTouches)
+        }
+    }
+</script>
+</html>
