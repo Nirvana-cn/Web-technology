@@ -14,3 +14,15 @@ function goUpstairs(n) {
         return temp[0];
     }
 }
+
+// 尾调用优化
+function goUpstairs2(n, prev, next) {
+    if(n <= 1) return next;
+    return goUpstairs2(n-1, next, prev + next);
+}
+
+//ES6改写
+function goUpstairs3(n, prev=1, next=1) {
+    if(n <= 1) return next;
+    return goUpstairs3(n-1, next, prev + next);
+}
