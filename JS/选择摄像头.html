@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择摄像头</title>
+</head>
+<body>
+<div class="wrapper">
+    <video src="" id="video"></video>
+    <br>
+    <button id="button">change camera</button>
+    <select id="select"></select>
+</div>
+<script>
+    // https://zcfy.cc/article/choosing-cameras-in-javascript-with-the-mediadevices-api
+    // https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/enumerateDevices
+    let video=document.getElementById('video');
+    let button=document.getElementById('button');
+    let select=document.getElementById('select');
+    let currentStream;
+    button.addEventListener('click', event => {
+        // 列出摄像头和麦克风
+        navigator.mediaDevices.enumerateDevices()
+            .then(function(devices) {
+                devices.forEach(function(device) {
+                    console.log(device.kind + ": " + device.label +
+                        " id = " + device.deviceId);
+                });
+            })
+            .catch(function(err) {
+                console.log(err.name + ": " + err.message);
+            });
+
+        // 切换摄像头
+        if (typeof currentStream !== 'undefined') {
+            stopMediaTracks(currentStream);
+        }
+        // 获取视频流
+        const videoConstraints = {};
+        if (select.value === '') {
+            videoConstraints.facingMode = 'environment';
+            // FacingMode 约束是一个可以用来选择摄像头的替代方法。
+            // 这个方法比起通过 enumerateDevices 函数获取 ID 来说更不那么精确，但在移动设备上效果非常好。
+            // 对于这个约束，一共有四种选项可供你选择：用户（user），环境（environment），左（left），右（right）
+        } else {
+            videoConstraints.deviceId = { exact: select.value };
+        }
+        const constraints = {
+            video: videoConstraints,
+            audio: false
+        };
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(stream => {
+                currentStream = stream;
+                video.srcObject = stream;
+                return navigator.mediaDevices.enumerateDevices();
+            })
+            .then(gotDevices)
+            .catch(error => {
+                console.error(error);
+            });
+
+        function gotDevices(mediaDevices) {
+            select.innerHTML = '';
+            select.appendChild(document.createElement('option'));
+            let count = 1;
+            mediaDevices.forEach(mediaDevice => {
+                if (mediaDevice.kind === 'videoinput') {
+                    const option = document.createElement('option');
+                    option.value = mediaDevice.deviceId;
+                    const label = mediaDevice.label || `Camera ${count++}`;
+                    const textNode = document.createTextNode(label);
+                    option.appendChild(textNode);
+                    select.appendChild(option);
+                }
+            });
+        }
+
+        function stopMediaTracks(stream) {
+            stream.getTracks().forEach(track => {
+                track.stop();
+            });
+        }
+    });
+</script>
+</body>
+</html>
