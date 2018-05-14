@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>利用CSS变量实现令人震惊的悬浮效果</title>
+    <style>
+        .button {
+            position: relative;
+            background: #f72359;
+            padding: 1em 2em;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            outline: none;
+            overflow: hidden;
+            border-radius: 100px;
+        }
+        .button ::before {
+            --size: 0;
+            content: '';
+            position: absolute;
+            left: var(--x);
+            top: var(--y);
+            width: var(--size);
+            height: var(--size);
+            background: radial-gradient(circle closest-side, #4405f7, transparent);
+            transform: translate(-50%, -50%);
+            transition: width .2s ease, height .2s ease;
+        }
+        span {
+            position: relative;
+        }
+        .button :hover::before {
+            --size: 400px;
+        }
+    </style>
+</head>
+<body>
+<button class="button">
+    <span>利用CSS变量实现令人震惊的悬浮效果</span>
+</button>
+<script>
+    // https://www.zcfy.cc/article/stunning-hover-effects-with-css-variables
+    document.querySelector('.button').onmousemove = (e) => {
+        const x = e.pageX - e.target.offsetLeft
+        const y = e.pageY - e.target.offsetTop
+        e.target.style.setProperty('--x', `${ x }px`)
+        e.target.style.setProperty('--y', `${ y }px`)
+    }
+</script>
+</body>
+</html>
