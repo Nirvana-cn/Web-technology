@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS实现宽度自适应100%，宽高16:9的比例的矩形。</title>
+    <style>
+        div{
+            background-color:#afa
+        }
+        /*method one*/
+        /*.container {*/
+            /*width: 16vh;*/
+            /*height: 9vh;*/
+        /*}*/
+
+        /*method two*/
+        /*padding，margin如果设置为百分比，则均是相对于父级元素的宽度而言的*/
+        /*.container {*/
+            /*width: 100%;*/
+            /*height: 0;*/
+            /*padding-top: 56.25%;*/
+        /*}*/
+
+        /*method three*/
+        .container{
+            overflow:hidden;//触发BFC解决父子元素margin合并问题
+            width:100%;
+        }
+        .wrapper{
+            margin-top:56.25%;
+            display:block; //块级元素才可以有垂直方向上的margin
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="wrapper"></div>
+</div>
+</body>
+</html>
