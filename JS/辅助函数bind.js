@@ -19,6 +19,7 @@ if(!Function.prototype.bind){
             return fToBind.apply(
                 (
                     this instanceof fNOP && oThis ? this : oThis
+                    // 这段代码会判断硬绑定函数是否是被new调用，如果是的话就会使用新创建的this替换硬绑定的this
                 ),
                 aArgs.concat(
                     Array.prototype.slice.call(arguments)
