@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>contentEditable</title>
+</head>
+<body>
+<div id="sample">HTML5中新加的contenteditable属性，当元素指定了该属性后，元素的内容成为可编辑状态</div>
+<button onclick="show()">让文字可编辑</button>
+</body>
+<script>
+    function show(){
+        var target = document.getElementsByTagName('div')[0]
+        target.contentEditable='true'
+    }
+</script>
+</html>

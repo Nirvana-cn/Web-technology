@@ -37,6 +37,7 @@ Array.prototype.unique = function () {
     const tmp = {};
     for (let i = 0; i < this.length; i++) {
         // 使用JSON.stringify()进行序列化
+        // 区分数字1和字符串1
         if (!tmp[typeof this[i] + JSON.stringify(this[i])]) {
             // 将对象序列化之后作为key来使用
             tmp[typeof this[i] + JSON.stringify(this[i])] = 1;
