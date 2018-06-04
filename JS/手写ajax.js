@@ -9,7 +9,7 @@ function getXhr() {
 }
 
 let xhr=getXhr();
-xhr.open('method','url');
+xhr.open('get','http://127.0.0.1:3002');
 xhr.send('data');
 xhr.onreadystatechange=function () {
     if(xhr.readyState==4 && xhr.status==200){
