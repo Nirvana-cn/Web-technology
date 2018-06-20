@@ -9,11 +9,11 @@
         jQuery.fn = jQuery.prototype = {
             constructor: jQuery,
             init: function(selector, context, rootjQuery) {
-                // 下章会重点讨论
+                // jQuery 用一个 init 函数来代替直接 new 函数名的方式
             }
             // 原型方法
         };
-
+        // 通过修改原型使得函数调用顺理成章
         jQuery.fn.init.prototype = jQuery.fn;
 
         jQuery.extend = jQuery.fn.extend = function() {};//已介绍
