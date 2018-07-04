@@ -1,7 +1,6 @@
 // 实现add(1)(2)(3)以及其拓展
 function add(x) {
-    let sum = 0
-    sum=sum+x
+    let sum=x
     function temp(y) {
         sum=sum+y
         return temp

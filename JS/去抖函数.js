@@ -3,8 +3,8 @@
 // 2. 文本连续输入，ajax验证/关键字搜索
 function debounce(method,delay){
     var timer=null;
-    return function(){
-        var context=this, args=arguments;
+    return function(...args){
+        var context=this;
         clearTimeout(timer);
         timer=setTimeout(function(){
             method.apply(context,args);
