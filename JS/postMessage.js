@@ -11,8 +11,7 @@ popup.postMessage("hello there!", "http://example.org");
 
 function receiveMessage(event)
 {
-    if (event.origin !== "http://example.org")
-        return;
+    if (event.origin !== "http://example.org") return;
     // event.source is popup
     // event.data is "hi there yourself!  the secret response is: rheeeeet!"【见下面一段代码可知】
 }
