@@ -13,11 +13,11 @@
     }
     let btn = document.getElementById("bt");
     let text = document.getElementById("text");
-//    btn.setAttribute("disabled","false");   //这种情况下按钮依然会被禁用
-    text.readOnly=true;
-//    text.disabled=true;
+//    btn.setAttribute("disabled","false");   //按钮会被禁用
+//    text.readOnly=true;         //input禁止输入
+    text.disabled=true;         //input变灰，禁用
 //    btn.readOnly=true;          //readOnly对按钮好像并没有效果
-//    btn.disabled='false';       //disabled=false按钮依然会被启用
+    btn.disabled='123';       //disabled等于任意非空字符串，按钮都会被禁用，但是disabled=false（注意false没加引号）可以取消按钮禁用
 //    无论input元素的readonly与disabled属性是否生效，都可以通过脚本修改input内容
 </script>
 </body>
