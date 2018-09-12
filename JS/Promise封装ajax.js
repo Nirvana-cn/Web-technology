@@ -22,5 +22,4 @@ function ajax(url, method) {
             }
         }
     })
-
 }

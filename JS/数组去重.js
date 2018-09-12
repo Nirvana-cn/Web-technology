@@ -1,3 +1,22 @@
+// 注意区别NaN，因为NaN!==NaN返回true，set结构不存在这个问题
+Array.prototype.uniq = function () {
+    var resArr = [];
+    var flag = true;
+    for(var i=0;i<this.length;i++){
+        if(resArr.indexOf(this[i]) == -1){
+            if(this[i] != this[i]){   //排除 NaN
+                if(flag){
+                    resArr.push(this[i]);
+                    flag = false;
+                }
+            }else{
+                resArr.push(this[i]);
+            }
+        }
+    }
+    return resArr;
+}
+
 // 方法一 sort()
 Array.prototype.unique = function () {
     const newArray = [];

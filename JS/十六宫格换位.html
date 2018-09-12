@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>十六宫格换位</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #wrapper {
+            margin: 0 auto;
+            width: 808px;
+            height: 808px;
+            border: 1px solid #ccc;
+            display: flex;
+            flex-flow: row wrap;
+        }
+
+        .item {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #ccc;
+            line-height: 200px;
+            text-align: center;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+<!--通过H5拖拽功能确定移动的双方，其次通过元素上的自定义属性data-x和data-y确定九宫格交换规则-->
+<div id="wrapper"></div>
+</body>
+<script>
+    let wrapper = document.getElementById('wrapper');
+    let fragment = document.createDocumentFragment();
+    let start;
+    for (let i = 0; i < 16; i++) {
+        let ele = document.createElement('div');
+        ele.setAttribute('class', 'item');
+        let child = document.createElement('div');
+        child.setAttribute('draggable', 'true');
+        child.setAttribute('style', 'transition:all 1s ease-in-out; opacity:1;');
+        child.setAttribute('data-x', JSON.stringify(Math.floor(i / 4)));
+        child.setAttribute('data-y', JSON.stringify(i % 4));
+        child.innerHTML = i;
+        child.ondragover = allowDrop;
+        child.ondragstart = startDrag;
+        child.ondrop = drop;
+        ele.appendChild(child);
+        fragment.appendChild(ele);
+    }
+    wrapper.appendChild(fragment);
+
+    function allowDrop(event) {
+        event.preventDefault();
+    }
+
+    function startDrag(event) {
+        start = event.target || event.srcElement;
+    }
+
+    function drop(event) {
+        event.preventDefault();
+        let end = event.target || event.srcElement;
+        let startX = start.getAttribute('data-x');
+        let startY = start.getAttribute('data-y');
+        let endX = end.getAttribute('data-x');
+        let endY = end.getAttribute('data-y');
+        if (start === end) {
+            return;
+        }
+        if ((startX === '0' || startY === '0') && (endX === '0' || endY === '0')) {
+            if (startX - endX === 0) {
+                for (let i = 0; i < 4; i++) {
+                    let str1 = `[data-x='${i}'][data-y='${startY}']`;
+                    let str2 = `[data-x='${i}'][data-y='${endY}']`;
+                    swap(document.querySelector(str1), document.querySelector(str2));
+                }
+                return;
+            }
+            if (startY - endY === 0) {
+                for (let i = 0; i < 4; i++) {
+                    let str1 = `[data-x='${startX}'][data-y='${i}']`;
+                    let str2 = `[data-x='${endX}'][data-y='${i}']`;
+                    swap(document.querySelector(str1), document.querySelector(str2));
+                }
+                return;
+            }
+        }
+
+        swap(start, end);
+
+        function swap(element1, element2) {
+            let temp = element1.innerHTML;
+//            let list=document.querySelectorAll('[data-x]');
+//            for(let i=0;i<list.length;i++){
+//                list[i].setAttribute('draggable','')
+//            }
+            element1.style.opacity=0;
+            element2.style.opacity=0;
+            setTimeout(function () {
+                element1.innerHTML = element2.innerHTML;
+                element2.innerHTML = temp;
+                element1.style.opacity=1;
+                element2.style.opacity=1;
+            },1000)
+        }
+    }
+</script>
+</html>

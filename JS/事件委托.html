@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件委托机制</title>
+</head>
+<body>
+<ul id="target">
+    <li class="current">1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+</ul>
+</body>
+<script>
+    var target=document.getElementById('target');
+    target.onclick=function(event){
+        console.log(event.currentTarget)
+        console.log(event.target)
+        console.log(event.target.innerHTML)
+    }
+</script>
+</html>
