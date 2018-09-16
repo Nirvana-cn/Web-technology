@@ -87,24 +87,24 @@
     let moveStartPoint = {x: 0, y: 0};
     let selectorLocation = {x: 150, y: 150};
     let movable = false;
-    let moveChange = throttle(compute, 0); //节流
     let pictureChange = debounce(makePicture, 500); //去抖
     picture.src = imageBase64;
     preview.style.background = "url(" + imageBase64 + ") no-repeat center";
     selector.onmousedown = function (event) {
-        let outer = cover.getBoundingClientRect();
-        let inner = selector.getBoundingClientRect();
         movable = true;
         moveStartPoint.x = event.clientX;
         moveStartPoint.y = event.clientY;
-        selectorLocation.x = inner.left - outer.left;
-        selectorLocation.y = inner.top - outer.top;
+        selectorLocation.x = selector.offsetLeft;
+        selectorLocation.y = selector.offsetTop;
+    };
+    selector.onmouseout = function (event) {
+        movable = false;
     };
     document.onmouseup = function (event) {
         movable = false;
     };
     selector.onmousemove = function (event) {
-        moveChange();
+        compute();
     };
 
     btn.onclick = function () {
@@ -113,8 +113,8 @@
 
     function makePicture() {
         ctx.clearRect(0, 0, 100, 100);
-        let sx = selector.getBoundingClientRect().left - cover.getBoundingClientRect().left;
-        let sy = selector.getBoundingClientRect().top - cover.getBoundingClientRect().top;
+        let sx = selector.offsetLeft;
+        let sy = selector.offsetTop;
         ctx.drawImage(picture, sx, sy, 100, 100, 0, 0, 100, 100);
         console.log("图片裁剪成功，裁剪后的图片为：\n" + canvas.toDataURL("image/png"));
         setTimeout(() => {
@@ -124,8 +124,8 @@
 
     function compute() {
         if (movable) {
-            let leftLocation = event.clientX - (moveStartPoint.x - selectorLocation.x);
-            let topLocation = event.clientY - (moveStartPoint.y - selectorLocation.y);
+            let leftLocation = event.clientX - moveStartPoint.x + selectorLocation.x;
+            let topLocation = event.clientY - moveStartPoint.y + selectorLocation.y;
             if (leftLocation <= 0 || leftLocation >= 298) {
                 if (leftLocation <= 0) {
                     leftLocation = 0;
@@ -143,17 +143,6 @@
             selector.style.left = leftLocation + 'px';
             selector.style.top = topLocation + 'px';
             preview.style.backgroundPosition = "-" + leftLocation + "px -" + topLocation + "px";
-        }
-    }
-
-    function throttle(method, duration) {
-        let begin = new Date();
-        return function (...args) {
-            let context = this, current = new Date();
-            if (current - begin >= duration) {
-                method.apply(context, args);
-                begin = current;
-            }
         }
     }
 

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文字书写方向(实现居中)</title>
+    <style>
+        .wrapper{
+            width:200px;
+            height:200px;
+            border:1px solid #ccc;
+            text-align: center;
+            writing-mode: vertical-lr;
+        }
+        .inner{
+            writing-mode: horizontal-tb;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">12345 12345 12345 12345 12345 12345</div>
+<div class="wrapper">
+    <span class="inner">12345 12345 12345 12345 12345 12345</span>
+</div>
+</body>
+</html>

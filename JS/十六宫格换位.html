@@ -16,9 +16,10 @@
             border: 1px solid #ccc;
             display: flex;
             flex-flow: row wrap;
+            position: relative;
         }
 
-        .item {
+        .item, #modOne, #modTwo{
             width: 200px;
             height: 200px;
             border: 1px solid #ccc;
@@ -26,14 +27,29 @@
             text-align: center;
             font-size: 40px;
         }
+
+        .cover {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
     </style>
 </head>
 <body>
 <!--通过H5拖拽功能确定移动的双方，其次通过元素上的自定义属性data-x和data-y确定九宫格交换规则-->
-<div id="wrapper"></div>
+<div id="wrapper">
+    <div id="modOne" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
+    <div id="modTwo" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
+</div>
+<div class="cover" style="visibility: hidden;"></div>
 </body>
 <script>
     let wrapper = document.getElementById('wrapper');
+    let cover = document.querySelector('.cover');
+    let modOne = document.querySelector('#modOne');
+    let modTwo = document.querySelector('#modTwo');
     let fragment = document.createDocumentFragment();
     let start;
     for (let i = 0; i < 16; i++) {
@@ -71,6 +87,7 @@
         if (start === end) {
             return;
         }
+        cover.style.visibility="visible"
         if ((startX === '0' || startY === '0') && (endX === '0' || endY === '0')) {
             if (startX - endX === 0) {
                 for (let i = 0; i < 4; i++) {
@@ -90,22 +107,55 @@
             }
         }
 
-        swap(start, end);
+        swapTranslate(start, end);
 
         function swap(element1, element2) {
             let temp = element1.innerHTML;
-//            let list=document.querySelectorAll('[data-x]');
-//            for(let i=0;i<list.length;i++){
-//                list[i].setAttribute('draggable','')
-//            }
-            element1.style.opacity=0;
-            element2.style.opacity=0;
+            element1.style.opacity = 0;
+            element2.style.opacity = 0;
             setTimeout(function () {
                 element1.innerHTML = element2.innerHTML;
                 element2.innerHTML = temp;
-                element1.style.opacity=1;
-                element2.style.opacity=1;
-            },1000)
+                element1.style.opacity = 1;
+                element2.style.opacity = 1;
+                cover.style.visibility="hidden";
+            }, 1000)
+        }
+
+        function swapTranslate(element1, element2) {
+            let temp = element1.innerHTML;
+            let moveLeft=202*(element1.getAttribute('data-x')-element2.getAttribute('data-x'));
+            let moveTop=202*(element1.getAttribute('data-y')-element2.getAttribute('data-y'));
+            modOne.innerHTML=element1.innerHTML;
+            modOne.style.left=element1.offsetLeft-1+'px';
+            modOne.style.top=element1.offsetTop-1+'px';
+            modOne.style.visibility='visible';
+            modTwo.innerHTML=element2.innerHTML;
+            modTwo.style.left=element2.offsetLeft-1+'px';
+            modTwo.style.top=element2.offsetTop-1+'px';
+            modTwo.style.visibility='visible';
+            element1.style.opacity = 0;
+            element2.style.opacity = 0;
+            setTimeout(function () {
+                modOne.style.transition='all 2s linear';
+                modTwo.style.transition='all 2s linear';
+                modOne.style.left=parseInt(modOne.style.left)-moveTop+'px';
+                modOne.style.top=parseInt(modOne.style.top)-moveLeft+'px';
+                modTwo.style.left=parseInt(modTwo.style.left)+moveTop+'px';
+                modTwo.style.top=parseInt(modTwo.style.top)+moveLeft+'px';
+                setTimeout(function () {
+                    element1.innerHTML = element2.innerHTML;
+                    element2.innerHTML = temp;
+                    element1.style.opacity = 1;
+                    element2.style.opacity = 1;
+                    modOne.style.transition='all 0s linear';
+                    modTwo.style.transition='all 0s linear';
+                    modOne.style.visibility='hidden';
+                    modTwo.style.visibility='hidden';
+                    cover.style.visibility="hidden";
+                }, 2000)
+            })
+
         }
     }
 </script>
