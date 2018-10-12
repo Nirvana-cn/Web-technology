@@ -10,7 +10,7 @@
         }
 
         #wrapper {
-            margin: 0 auto;
+            margin: 20px auto;
             width: 808px;
             height: 808px;
             border: 1px solid #ccc;
@@ -19,13 +19,14 @@
             position: relative;
         }
 
-        .item, #modOne, #modTwo{
+        .item, .move {
             width: 200px;
             height: 200px;
             border: 1px solid #ccc;
             line-height: 200px;
             text-align: center;
             font-size: 40px;
+            color: #fff;
         }
 
         .cover {
@@ -40,34 +41,40 @@
 <body>
 <!--通过H5拖拽功能确定移动的双方，其次通过元素上的自定义属性data-x和data-y确定九宫格交换规则-->
 <div id="wrapper">
-    <div id="modOne" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
-    <div id="modTwo" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
+    <div class="move" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
+    <div class="move" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
+    <div class="move" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
+    <div class="move" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
+    <div class="move" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
+    <div class="move" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
+    <div class="move" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
+    <div class="move" style="visibility: hidden;position: absolute;left:0;top:0;"></div>
 </div>
 <div class="cover" style="visibility: hidden;"></div>
 </body>
 <script>
     let wrapper = document.getElementById('wrapper');
     let cover = document.querySelector('.cover');
-    let modOne = document.querySelector('#modOne');
-    let modTwo = document.querySelector('#modTwo');
+    let moveDiv = document.querySelectorAll('.move');
     let fragment = document.createDocumentFragment();
     let start;
+    let color = ['#afa', '#faa', '#aaf', '#faa500'];
     for (let i = 0; i < 16; i++) {
         let ele = document.createElement('div');
         ele.setAttribute('class', 'item');
         let child = document.createElement('div');
         child.setAttribute('draggable', 'true');
-        child.setAttribute('style', 'transition:all 1s ease-in-out; opacity:1;');
+        child.setAttribute('style', 'opacity:1; background-color:' + color[Math.floor(i / 4)]);
         child.setAttribute('data-x', JSON.stringify(Math.floor(i / 4)));
         child.setAttribute('data-y', JSON.stringify(i % 4));
         child.innerHTML = i;
-        child.ondragover = allowDrop;
-        child.ondragstart = startDrag;
-        child.ondrop = drop;
         ele.appendChild(child);
         fragment.appendChild(ele);
     }
     wrapper.appendChild(fragment);
+    wrapper.ondragover = allowDrop;
+    wrapper.ondragstart = startDrag;
+    wrapper.ondrop = drop;
 
     function allowDrop(event) {
         event.preventDefault();
@@ -87,13 +94,20 @@
         if (start === end) {
             return;
         }
-        cover.style.visibility="visible"
+        cover.style.visibility = "visible"
         if ((startX === '0' || startY === '0') && (endX === '0' || endY === '0')) {
             if (startX - endX === 0) {
                 for (let i = 0; i < 4; i++) {
                     let str1 = `[data-x='${i}'][data-y='${startY}']`;
                     let str2 = `[data-x='${i}'][data-y='${endY}']`;
-                    swap(document.querySelector(str1), document.querySelector(str2));
+                    setTimeout(swap, 500 * i, document.querySelector(str1), document.querySelector(str2), i)
+                    setTimeout(function () {
+                        Array.from(moveDiv).forEach(function (item) {
+                            item.style.transition = 'all 0s linear';
+                            item.style.visibility = 'hidden';
+                        })
+                        cover.style.visibility = "hidden";
+                    }, 4000)
                 }
                 return;
             }
@@ -101,61 +115,61 @@
                 for (let i = 0; i < 4; i++) {
                     let str1 = `[data-x='${startX}'][data-y='${i}']`;
                     let str2 = `[data-x='${endX}'][data-y='${i}']`;
-                    swap(document.querySelector(str1), document.querySelector(str2));
+                    swap(document.querySelector(str1), document.querySelector(str2), i);
+                    setTimeout(function () {
+                        Array.from(moveDiv).forEach(function (item) {
+                            item.style.transition = 'all 0s linear';
+                            item.style.visibility = 'hidden';
+                        })
+                        cover.style.visibility = "hidden";
+                    }, 2500)
                 }
                 return;
             }
         }
 
-        swapTranslate(start, end);
+        swap(start, end, 0);
+        setTimeout(function () {
+            Array.from(moveDiv).forEach(function (item) {
+                item.style.transition = 'all 0s linear';
+                item.style.visibility = 'hidden';
+            })
+            cover.style.visibility = "hidden";
+        }, 2500)
 
-        function swap(element1, element2) {
+        function swap(element1, element2, index) {
             let temp = element1.innerHTML;
+            let tempColor = element1.style.backgroundColor;
+            let moveLeft = 202 * (element1.getAttribute('data-x') - element2.getAttribute('data-x'));
+            let moveTop = 202 * (element1.getAttribute('data-y') - element2.getAttribute('data-y'));
+            moveDiv[index * 2].innerHTML = element1.innerHTML;
+            moveDiv[index * 2].style.left = element1.offsetLeft - 1 + 'px';
+            moveDiv[index * 2].style.top = element1.offsetTop - 1 + 'px';
+            moveDiv[index * 2].style.backgroundColor = element1.style.backgroundColor;
+            moveDiv[index * 2].style.visibility = 'visible';
+            moveDiv[index * 2 + 1].innerHTML = element2.innerHTML;
+            moveDiv[index * 2 + 1].style.left = element2.offsetLeft - 1 + 'px';
+            moveDiv[index * 2 + 1].style.top = element2.offsetTop - 1 + 'px';
+            moveDiv[index * 2 + 1].style.backgroundColor = element2.style.backgroundColor;
+            moveDiv[index * 2 + 1].style.visibility = 'visible';
             element1.style.opacity = 0;
             element2.style.opacity = 0;
             setTimeout(function () {
-                element1.innerHTML = element2.innerHTML;
-                element2.innerHTML = temp;
-                element1.style.opacity = 1;
-                element2.style.opacity = 1;
-                cover.style.visibility="hidden";
-            }, 1000)
-        }
-
-        function swapTranslate(element1, element2) {
-            let temp = element1.innerHTML;
-            let moveLeft=202*(element1.getAttribute('data-x')-element2.getAttribute('data-x'));
-            let moveTop=202*(element1.getAttribute('data-y')-element2.getAttribute('data-y'));
-            modOne.innerHTML=element1.innerHTML;
-            modOne.style.left=element1.offsetLeft-1+'px';
-            modOne.style.top=element1.offsetTop-1+'px';
-            modOne.style.visibility='visible';
-            modTwo.innerHTML=element2.innerHTML;
-            modTwo.style.left=element2.offsetLeft-1+'px';
-            modTwo.style.top=element2.offsetTop-1+'px';
-            modTwo.style.visibility='visible';
-            element1.style.opacity = 0;
-            element2.style.opacity = 0;
-            setTimeout(function () {
-                modOne.style.transition='all 2s linear';
-                modTwo.style.transition='all 2s linear';
-                modOne.style.left=parseInt(modOne.style.left)-moveTop+'px';
-                modOne.style.top=parseInt(modOne.style.top)-moveLeft+'px';
-                modTwo.style.left=parseInt(modTwo.style.left)+moveTop+'px';
-                modTwo.style.top=parseInt(modTwo.style.top)+moveLeft+'px';
+                moveDiv[index * 2].style.transition = 'all 2s linear';
+                moveDiv[index * 2].style.left = parseInt(moveDiv[index * 2].style.left) - moveTop + 'px';
+                moveDiv[index * 2].style.top = parseInt(moveDiv[index * 2].style.top) - moveLeft + 'px';
+                moveDiv[index * 2 + 1].style.transition = 'all 2s linear';
+                moveDiv[index * 2 + 1].style.left = parseInt(moveDiv[index * 2 + 1].style.left) + moveTop + 'px';
+                moveDiv[index * 2 + 1].style.top = parseInt(moveDiv[index * 2 + 1].style.top) + moveLeft + 'px';
                 setTimeout(function () {
                     element1.innerHTML = element2.innerHTML;
-                    element2.innerHTML = temp;
                     element1.style.opacity = 1;
+                    element1.style.backgroundColor = element2.style.backgroundColor;
+                    element2.innerHTML = temp;
                     element2.style.opacity = 1;
-                    modOne.style.transition='all 0s linear';
-                    modTwo.style.transition='all 0s linear';
-                    modOne.style.visibility='hidden';
-                    modTwo.style.visibility='hidden';
-                    cover.style.visibility="hidden";
+                    element2.style.backgroundColor = tempColor;
                 }, 2000)
-            })
-
+            }, 100)
         }
     }
 </script>

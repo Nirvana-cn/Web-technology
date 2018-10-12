@@ -1,9 +1,11 @@
 const arr = [[1, 2], 3, [4, 3, [8, 9, [10, [11, [12, [13, [14, [15, [16, [17, [18]]]]]]]]]]]];
 const flatten = (arr) => arr.reduce((a, b) => {
     if (Array.isArray(b)) {
-        return a.concat(flatten(b));
+        a.push(...flatten(b));
+    }else{
+        a.push(b);
     }
-    return a.concat(b);
+    return a;
 }, []);
 const new_arr = flatten(arr);
 console.log(new_arr);
