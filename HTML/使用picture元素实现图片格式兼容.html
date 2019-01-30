@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>picture element</title>
+</head>
+<body>
+<div>使用picture标签实现图片格式兼容，对于支持webp格式的浏览器看到的是熊猫，不支持webp格式的浏览器看到的是hello world！！！</div>
+<picture>
+    <source srcset="http://image-demo.oss-cn-hangzhou.aliyuncs.com/panda.png?x-oss-process=image/format,webp" type="image/webp">
+    <img src="https://raw.githubusercontent.com/Nirvana-cn/Photograph-deposit/master/p37.png" alt="mkcert">
+</picture>
+</body>
+</html>
