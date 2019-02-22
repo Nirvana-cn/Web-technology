@@ -57,22 +57,22 @@
             <br>
             <span class="tags">
                 <el-badge :value="schedules.created.length" class="item">
-                  <el-button size="small" data-schedule="created" @click="changeSchedule">Created</el-button>
+                  <el-button size="small" data-schedule="created" @click="changeSchedule" :type="selected.created">Created</el-button>
                 </el-badge>
                 <el-badge :value="schedules.assigned.length" class="item">
-                  <el-button size="small" data-schedule="assigned" @click="changeSchedule">Assigned</el-button>
+                  <el-button size="small" data-schedule="assigned" @click="changeSchedule" :type="selected.assigned">Assigned</el-button>
                 </el-badge>
                 <el-badge :value="schedules.finished.length" class="item">
-                  <el-button size="small" data-schedule="finished" @click="changeSchedule">Finished</el-button>
+                  <el-button size="small" data-schedule="finished" @click="changeSchedule" :type="selected.finished">Finished</el-button>
                 </el-badge>
                 <el-badge :value="schedules.closed.length" class="item">
-                  <el-button size="small" data-schedule="closed" @click="changeSchedule">Closed</el-button>
+                  <el-button size="small" data-schedule="closed" @click="changeSchedule" :type="selected.closed">Closed</el-button>
                 </el-badge>
                 <el-badge :value="schedules.canceled.length" class="item">
-                  <el-button size="small" data-schedule="canceled" @click="changeSchedule">Canceled</el-button>
+                  <el-button size="small" data-schedule="canceled" @click="changeSchedule" :type="selected.canceled">Canceled</el-button>
                 </el-badge>
                 <el-badge :value="schedules.noScore.length" class="item">
-                  <el-button size="small" data-schedule="noScore" @click="changeSchedule">No score</el-button>
+                  <el-button size="small" data-schedule="noScore" @click="changeSchedule" :type="selected.noScore">No score</el-button>
                 </el-badge>
             </span>
         </fieldset>
@@ -129,6 +129,14 @@
                 canceled:[],
                 noScore:[]
             },
+            selected: {
+                created: '',
+                assigned: '',
+                finished: '',
+                closed: '',
+                canceled: '',
+                noScore: ''
+            },
             // 用户列表
             options:[{
                 value: '选项1',
@@ -168,6 +176,14 @@
                 })
                 // 默认只渲染finished的项目
                 this.calendar.createSchedules(this.schedules['finished'])
+                this.selected = {
+                    created: '',
+                    assigned: '',
+                    finished: '',
+                    closed: '',
+                    canceled: '',
+                    noScore: 'warning'
+                }
             }
         },
         created() {
@@ -220,6 +236,15 @@
                     this.calendar.clear()
                     this.calendar.createSchedules(this.schedules[event.currentTarget.getAttribute('data-schedule')])
                 }
+                this.selected = {
+                    created: '',
+                    assigned: '',
+                    finished: '',
+                    closed: '',
+                    canceled: '',
+                    noScore: ''
+                }
+                this.selected[event.currentTarget.getAttribute('data-schedule')] = 'warning'
             }
         }
     })
