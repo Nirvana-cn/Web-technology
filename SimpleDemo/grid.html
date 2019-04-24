@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>格子</title>
+</head>
+<style>
+    html, body {
+        height: 100%;
+        margin: 20px;
+    }
+
+    #wrapper {
+        width: 100%;
+        height: 100%;
+        margin-top:20px;
+    }
+    .item{
+        display:inline-block;
+        border:1px solid #ccc;
+    }
+    .item:hover{
+        background-color:#f00;
+    }
+
+</style>
+<body>
+<div id="top">
+    <input type="number" onchange="changeCount(event)" value="0">
+    <input type="number" onchange="selectLength(event)" value="100"><span>px</span>
+</div>
+<div id="wrapper" onclick="changeColor(event)">
+    ready to structure grid...
+</div>
+</body>
+<script>
+    let count = 0;
+    let gridLength = 100;
+    function changeCount(event) {
+        console.log(event.target.value);
+        count = event.target.value;
+        if(count > 0){
+            generateGrid()
+        }else{
+            alert('请输入大于0的数...')
+        }
+
+    }
+
+    function changeColor(event) {
+        if(event.target === document.querySelector('#wrapper')){
+            return;
+        }
+        if(event.target.style.backgroundColor === 'rgb(0, 0, 255)'){
+            event.target.style.backgroundColor='#FFF'
+        }else{
+            event.target.style.backgroundColor='#00F'
+        }
+    }
+
+    function selectLength(event) {
+        gridLength = event.target.value;
+        console.log(gridLength);
+        generateGrid()
+    }
+
+    function generateGrid() {
+        let fragment = document.createDocumentFragment();
+        document.querySelector('#wrapper').innerHTML = '';
+        for (let i = 1; i <= count ** 2; i++) {
+            let ele = document.createElement('div');
+            ele.setAttribute('style', `width: ${gridLength}px;height:${gridLength}px;`);
+            ele.setAttribute('class', 'item');
+            ele.innerHTML = i;
+            fragment.appendChild(ele);
+            if(i%count === 0){
+                let temp = document.createElement('br');
+                fragment.appendChild(temp);
+            }
+        }
+        document.querySelector('#wrapper').appendChild(fragment)
+    }
+
+</script>
+</html>
