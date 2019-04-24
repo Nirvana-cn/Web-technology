@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Test</title>
+</head>
+<body>
+<textarea name="jiu_textarea" rows="15" id="jiu_textarea">欢迎访问脚本之家//www.jb51.net</textarea>
+<script>
+    //选中文本中指定部分
+    function selectSomeText(obj, start, end) {
+        if (document.selection) {
+            if (obj.tagName === 'TEXTAREA') {
+                var i = obj.value.indexOf("\r", 0);
+                while (i !== -1 && i < end) {
+                    end--;
+                    if (i < start) {
+                        start--;
+                    }
+                    i = obj.value.indexOf("\r", i + 1);
+                }
+            }
+            var range = obj.createTextRange();
+            range.collapse(true);
+            range.moveStart('character', start);
+            if (end !== undefined) {
+                range.moveEnd('character', end - start);
+            }
+            range.select();
+        } else {
+            obj.selectionStart = start;
+            var sel_end = end === undefined ? start : end;
+            obj.selectionEnd = Math.min(sel_end, obj.value.length);
+            obj.focus();
+        }
+    }
+
+    selectSomeText(document.getElementById('jiu_textarea'), 2, 8)//选中ID为jiu_textarea内的第2至8个字！
+</script>
+</body>
+</html>

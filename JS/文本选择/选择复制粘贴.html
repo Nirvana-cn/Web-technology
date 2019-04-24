@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择复制粘贴</title>
+</head>
+<body>
+<div id="target" contenteditable>
+    <div>title is here</div>
+    <ul>
+        <li>aaa</li>
+        <li>bbb</li>
+        <li>ccc</li>
+    </ul>
+</div>
+<div>
+    <p>我不想被选中</p>
+</div>
+<div>
+    <button onclick="func1()" id="choose">选择</button>
+    <button onclick="func2()" id="copy">复制</button>
+</div>
+</body>
+<script>
+    function func1() {
+        console.log(111)
+        selectText('target')
+    }
+
+    function func2() {
+        console.log(222)
+        document.execCommand('copy')
+    }
+
+    function selectText(containerid) {
+        if (document.selection) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById(containerid));
+            range.select();
+        } else if (window.getSelection) {
+            var range = document.createRange();
+            range.selectNodeContents(document.getElementById(containerid));
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+        }
+    }
+
+</script>
+</html>
