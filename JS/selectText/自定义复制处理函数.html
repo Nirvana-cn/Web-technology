@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义复制处理函数</title>
+</head>
+<body>
+<div id="target">我想被复制</div>
+<button onclick="copy()">复制div里的内容</button>
+<script>
+    var copyText = ''
+    window.addEventListener('copy', function (e) {
+        e.preventDefault()
+        e.clipboardData.setData('text/plain', copyText);
+    })
+
+    function copy() {
+        copyText = document.querySelector('#target').innerHTML
+        document.execCommand('copy')
+    }
+</script>
+</body>
+</html>

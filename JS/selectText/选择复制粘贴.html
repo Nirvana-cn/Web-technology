@@ -23,27 +23,25 @@
 </body>
 <script>
     function func1() {
-        console.log(111)
         selectText('target')
     }
 
     function func2() {
-        console.log(222)
         document.execCommand('copy')
     }
 
     function selectText(containerid) {
+        var range
         if (document.selection) {
-            var range = document.body.createTextRange();
+            range = document.body.createTextRange();
             range.moveToElementText(document.getElementById(containerid));
             range.select();
         } else if (window.getSelection) {
-            var range = document.createRange();
+            range = document.createRange();
             range.selectNodeContents(document.getElementById(containerid));
             window.getSelection().removeAllRanges();
             window.getSelection().addRange(range);
         }
     }
-
 </script>
 </html>

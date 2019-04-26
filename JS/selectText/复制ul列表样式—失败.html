@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>复制ul</title>
+</head>
+<body>
+<div id="target">
+    <div>title is here</div>
+    <ul>
+        <li>aaa</li>
+        <li>bbb</li>
+        <li>ccc</li>
+    </ul>
+</div>
+<div>
+    <p>我不想被选中</p>
+</div>
+<div>
+    <button onclick="copy()" id="copy">复制</button>
+</div>
+<script>
+    var copyText = ''
+    window.addEventListener('copy', function (e) {
+        e.preventDefault()
+        e.clipboardData.setData('text/plain', copyText);
+    })
+
+    function copy() {
+        copyText = document.querySelector('#target').innerText
+        document.execCommand('copy')
+    }
+</script>
+</body>
+</html>
