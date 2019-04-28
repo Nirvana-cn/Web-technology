@@ -1,40 +1,44 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Test</title>
+    <meta charset="UTF-8">
+    <title>选择指定长度文本</title>
 </head>
 <body>
-<textarea name="jiu_textarea" rows="15" id="jiu_textarea">欢迎访问脚本之家//www.jb51.net</textarea>
+<div id="target" contenteditable>
+    <div id="start">title is here</div>
+    <ul>
+        <li>aaa</li>
+        <li id="end">bbb</li>
+        <li>ccc</li>
+    </ul>
+</div>
+<div>
+    <p>我不想被选中</p>
+</div>
+<div>
+    <button onclick="func1()" id="choose">选择</button>
+    <button onclick="func2()" id="copy">复制</button>
+</div>
+</body>
 <script>
-    //选中文本中指定部分
-    function selectSomeText(obj, start, end) {
-        if (document.selection) {
-            if (obj.tagName === 'TEXTAREA') {
-                var i = obj.value.indexOf("\r", 0);
-                while (i !== -1 && i < end) {
-                    end--;
-                    if (i < start) {
-                        start--;
-                    }
-                    i = obj.value.indexOf("\r", i + 1);
-                }
-            }
-            var range = obj.createTextRange();
-            range.collapse(true);
-            range.moveStart('character', start);
-            if (end !== undefined) {
-                range.moveEnd('character', end - start);
-            }
-            range.select();
-        } else {
-            obj.selectionStart = start;
-            var sel_end = end === undefined ? start : end;
-            obj.selectionEnd = Math.min(sel_end, obj.value.length);
-            obj.focus();
-        }
+    function func1() {
+        selectText('target')
     }
 
-    selectSomeText(document.getElementById('jiu_textarea'), 2, 8)//选中ID为jiu_textarea内的第2至8个字！
+    function func2() {
+        document.execCommand('copy')
+    }
+
+    function selectText(containerid) {
+        var range
+        if (window.getSelection) {
+            range = document.createRange();
+            range.setStart(document.querySelector('#start').firstChild, 0);
+            range.setEnd(document.querySelector('#end').firstChild, 3);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+        }
+    }
 </script>
-</body>
 </html>
