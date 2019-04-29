@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义事件和触发</title>
+</head>
+<body>
+<div>
+    <div id="target">
+        123
+    </div>
+    <button onclick="func1()">触发事件</button>
+</div>
+</body>
+<script>
+    let target = document.querySelector('#target');
+    target.addEventListener('show',function (e) {
+        console.log(e.target);
+        console.log(target.innerText);
+        let event = new Event('show')
+        document.dispatchEvent(event);
+    },true);
+
+    document.addEventListener('show',function (e) {
+        console.log('document...')
+    });
+
+    function func1() {
+        let event = new Event('show');
+        target.dispatchEvent(event)
+    }
+</script>
+</html>
