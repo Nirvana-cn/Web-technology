@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="file" id="input" onchange="handleFiles(this.files)">
+    <div>
+        <input id="search" type="text" placeholder="请输入查询关键字"
+               style="width: 250px;height: 40px;font-size: 20px;line-height: 50px;">
+        <div>
+            <span>格式如：姓名=name&年龄=10</span>
+        </div>
+        <button id="searchBt" type="button" onclick="findData()" disabled>查询</button>
+    </div>
+
+    <div>
+        <div>result:</div>
+        <div id="target"></div>
+    </div>
+</div>
+</body>
+<script>
+    let jsonData;
+    let button = document.querySelector("#searchBt");
+    let textArea = document.querySelector("#target");
+    let searcInput = document.querySelector("#search");
+
+    function findData() {
+        let searchStr = searcInput.value;
+        let needSearchObj = {};
+        let needSearchArray = searchStr.split("&");
+        let key;
+        needSearchArray.forEach(value => {
+            if (value) {
+                let valueArray = value.split("=")
+                needSearchObj[valueArray[0]] = valueArray[1];
+            }
+        });
+        console.log(needSearchObj);
+        key = Object.keys(needSearchObj);
+        let temp = jsonData.filter(value => {
+            for (let i = 0; i < key.length; i++) {
+                if(value[key[i]] != needSearchObj[key[i]]){
+                    return 0;
+                }
+
+            }
+            return 1;
+        })
+
+        textArea.innerText = JSON.stringify(temp);
+    }
+
+    function handleFiles(file) {
+        console.log(file);
+        var reader = new FileReader();
+        reader.readAsArrayBuffer(file[0]);
+        reader.onload = function (e) {
+            var data = e.target.result;
+            var wb = XLSX.read(btoa(fixedData(data)), {type: 'base64'});
+            var str = JSON.stringify(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]));
+            jsonData = JSON.parse(str);
+            button.disabled = false;
+            console.log(jsonData)
+        };
+    }
+
+    function fixedData(data) {
+        let o = '';
+        let l = 0;
+        const w = 10240;
+        for (; l < data.byteLength / w; ++l) {
+            o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)))
+        }
+        o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+        return o
+    }
+
+
+</script>
+</html>
