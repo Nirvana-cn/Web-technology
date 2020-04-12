@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网站变灰效果</title>
+    <style>
+        html {
+            filter: grayscale(100%);
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+        }
+
+        #wrapper {
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            background-color: #00BBFF;
+        }
+
+        #target {
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            background-color: #47b264;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper"></div>
+
+    <div id="target"></div>
+</body>
+</html>
